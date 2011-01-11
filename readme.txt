@@ -14,4 +14,4 @@ It puts the appropriate tag on the home page and other pages.
 
 Simply put the following tag in the <head> section of all templates:
 
-[[Canonical]]
+[[!Canonical]]

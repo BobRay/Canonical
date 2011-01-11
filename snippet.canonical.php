@@ -16,7 +16,7 @@
 
 Simply install the snippet with Package Manager and put the
 following snippet tag in the <head> section of all templates
-[[Canonical]]
+[[!Canonical]]
 */
 
 /* Canonical snippet */
