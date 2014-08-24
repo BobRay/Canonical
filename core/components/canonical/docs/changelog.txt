@@ -1,0 +1,9 @@
+Changelog for Canonical
+
+Canonical 1.0.1
+---------------------------------
+Execute only for Symlinks
+
+Canonical 1.0.0
+---------------------------------
+Initial Version
