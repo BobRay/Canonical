@@ -1,6 +1,6 @@
 Changelog for Canonical
 
-Canonical 1.0.1
+Canonical 2.0.0-pl
 ---------------------------------
 Execute only for Symlinks
 

@@ -28,8 +28,10 @@ $snippets = array();
 $snippets[1] = $modx->newObject('modSnippet');
 $snippets[1]->fromArray(array (
   'id' => 1,
-  'description' => 'Create a canonical tag for Symlinks for SEO',
+  'property_preprocess' => false,
   'name' => 'Canonical',
+  'description' => 'Create a canonical tag for Symlinks for SEO',
+  'properties' => NULL,
 ), '', true, true);
 $snippets[1]->setContent(file_get_contents($sources['source_core'] . '/elements/snippets/canonical.snippet.php'));
 
