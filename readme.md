@@ -1,11 +1,13 @@
-Canonical Extra for MODx Revolution
+Canonical Extra for MODX Revolution
 =======================================
 
-**Author:** Bob Ray <http://bobsguides.com> [Bob's Guides](http://bobsguides.com)
+**Author:** Bob Ray [Bob's Guides](https://bobsguides.com)
 
-**Copyright:** 2010-2014 Bob Ray
+**Documentation:** [Canonical Docs](https://bobsguides.com/canonical-tutorial.html)
 
-Documentation is available at [Bob's Guides](http://bobsguides.com/canonical-tutorial.html)
+**Bugs and requests:** [Canonical Issues](https://github.com/BobRay/Canonical/issues)
+
+**Questions about using Canonical** [MODX Forums](https://forums.modx.com)
 
 Canonical creates an automatic canonical tag for Symlinks in MODX Revolution, to prevent search engine penalties for duplicate content.
 
