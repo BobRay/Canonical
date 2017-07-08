@@ -2,7 +2,7 @@
 /**
  * Canonical snippet for Canonical extra
  *
- * Copyright 2010-2017 by Bob Ray <https://bobsguides.com>
+ * Copyright 2010-2017 Bob Ray <https://bobsguides.com>
  * @created 07-31-2010
  *
  * Canonical is free software; you can redistribute it and/or modify it under the
