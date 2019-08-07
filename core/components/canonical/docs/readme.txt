@@ -3,7 +3,7 @@ Canonical
 
 
 Author: Bob Ray <https://bobsguides.com>
-Copyright 2010-2017 Bob Ray
+Copyright 2010-2019 Bob Ray
 
 The Canonical snippet puts a canonical tag in the &lt;head&gt; section of your template. It executes only for Symlinks so that for SEO purposes, you won't be penalized for duplicate content.
 
