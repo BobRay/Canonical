@@ -1,4 +1,12 @@
-<p>The Canonical snippet places a proper canonical tag in the head section of pages. It executes only for Symlinks to prevent search engine penalties for duplicate content.</p>
+<p>The Canonical snippet places a proper canonical tag in the head section of pages.
+Version 3.0.0-pl has been updated for MODX 3 and adds an option to put a canonical tag on all pages.
+</p>
+
+<div class="box">
+  <p>Important update note: As of version 3.0.0-pl, Canonical will put a canonical tag on all pages. On all but SymLink pages, it will point to the page itself.</p>
+
+  <p>If you don't want this, change the <code>canonical_always</code> snippet property, either in the snippets default properties (and redo this if the extra is updated), in a property set, or in the snippet tag (recommended). But see the info below before doing so.</p>
+</div>
 
 <h3>Installing Canonical</h3>
 
@@ -13,7 +21,67 @@ Revolution Repository (AKA Web Transport Facility). Put Canonical in the search 
 
 <pre class="brush: html; toolbar: false;"><fixedpre>
 [[!Canonical]]
+  /* Or to have the tag only on SymLink-related pages:
+[[!Canonical? &canonical_always=`0`]]
 </fixedpre></pre>
 
+<p>The exclamation point above is critical, leaving it out will cause search engines to hate your site.</p>
 
-<p>&nbsp;</p>
+<h3>Why put a Canonical Tag on All Pages?</h3>
+
+<p>SEO experts have been recommending a canonical tag on all pages, and reportedly Google has confirmed that this is a best practice.</p>
+
+<p>With version 3.0.0-pl, this actually improves performance as well, since the snippet never has to consult the database to decide whether the page gets a canonical tag. When the snippet runs, there's no way to be sure whether a page should get a canonical tag or not without a DB query, since with the default configuration of MODX, the <code>class_key</code> of the document has been changed to <code>modDocument</code> by the time the snippet runs.</p>
+
+<h3>The Good News</h3>
+
+<p>The good news is that if you want a canonical tag on every page, you just need to update the snippet, and it will do that by default.</p>
+
+<h3>The Bad News</h3>
+
+<p>SymLinks are still complicated. There are two System Settings that control how SymLinks are handled: <code>symlink_merge_fields</code> and <code>forward_merge_excludes</code>.</p>
+
+<p>In the following sections, the "target" resource is the resource the SymLink page points to. The canonical tag will hold the ID of the target resource (always). The SymLink resource itself holds that target resource's ID in its <code>content</code> field. (When creating or editing a SymLink page, the "content" field gets the label: "SymLink.")</p>
+
+<p>The <code>symlink_merge_fields</code> System Setting tells MODX whether to merge the SymLinks fields over those of the target document. If it's set to <code>Yes</code>, MODX will replace the target page's fields with any non-empty fields (including TVs) in the SymLink resource (except the ones specified below). If <code>symlink_merge_fields</code> is set to yes, for example, the displayed page will use the <code>pagetitle</code>, <code>longtitle</code>, <code>template</code>, and other fields of the SymLink resource if they are not blank and not covered by the next section.</p>
+
+<p>If the <code>symlink_merge_fields</code> System Setting is set to <code>No</code>, all the target resource's fields are used as is, and all fields of the SymLink resource are ignored, except the ID in the <code>content</code> field that points to the target resource.</p>
+
+<p>The <code>forward_merge_excludes</code> System Setting contains a list of fields that should not be overwritten in the target resource when it's accessed through a SymLink. If <code>symlink_merge_fields</code> is set to <code>No</code>, these are ignored. If it's set to yes, those fields are not overwritten by the SymLink's fields. </p>
+
+<p>The default content of the <code>forward_merge_excludes</code> System Setting is <code>type,published,class_key</code>. With that setting, the value of those three fields will always come from the target resource.</p>
+
+<h3>Behavior of the Canonical Snippet</h3>
+
+<p>The information above affects how the Canonical snippet behaves. The actions below are not my choices for the snippet, they are unavoidable effects of how MODX handles SymLinks. This is how it works:</p>
+<ul>
+  <li><code>canonical_always</code> snippet property set to "Yes"</li>
+    <ul>
+      <li>All pages get a canonical tag regardless of the System Settings. For SymLink resources, it contains the target resource's URL, for all other pages, it contains the URL of the page itself.
+    </ul>
+  <li><code>canonical_always snippet property set to "No"</code></li>
+     <ul>
+       <li><code>symlink_merge_fields</code> set to "Yes"</li>
+          <ul>
+            <li>SymLinks and target pages always get a canonical tag if <code>class_key</code> is in the <code>forward_merge_excludes</code> setting .</li>
+            <li>If <code>class_key</code> is removed from the <code>forward_merge_excludes</code> setting, only SymLinks get a canonical tag.</li>
+          </ul>
+       <li><code>symlink_merge_fields</code> set to "No"</li>
+        <ul>
+            <li>SymLinks and target pages always get a canonical tag. Other pages do not.</li>
+        </ul>
+     </ul>
+</ul>
+
+<h3>Recommendations</h3>
+
+<p>Best choice: let the snippet put a canonical tag on every page. It's faster, better for SEO, and lets you use the System Settings however you like.</p>
+
+<p>If you don't want canonical tags on every page, use the list of actions above to see what works best for your use case.</p>
+
+<p>Note that if you want canonical tags only on SymLink pages, the only way to do it is to turn the <code>symlink_merge</code> System Setting on and remove the <code>class_key</code> from the <code>forward_merge_excludes</code> System Setting.</p>
+
+<p>This means that the SymLink resource's non-empty fields and TV values will overwrite the target resource's fields, unless you add them to the <code>forward_merge_excludes</code> System Setting, or make sure they're blank in the SymLink resource. It also means that the <code>class_key</code> of the resulting page will be <code>modSymLink</code>. I don't think that will cause any trouble, but I could be wrong.</p>
+
+<p></p>
+

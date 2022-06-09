@@ -2,6 +2,12 @@ Changelog for Canonical
 
 Canonical 2.0.0-pl
 ---------------------------------
+Updates for MODX 3
+Option to put canonical tag on all pages
+Updates to documentation
+
+Canonical 2.0.0-pl
+---------------------------------
 Execute only for Symlinks
 
 Canonical 1.0.0
