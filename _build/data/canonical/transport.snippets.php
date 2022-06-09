@@ -2,7 +2,7 @@
 /**
  * snippets transport file for Canonical extra
  *
- * Copyright 2010-2019 Bob Ray <https://bobsguides.com>
+ * Copyright 2010-2014 Bob Ray <https://bobsguides.com>
  * Created on 08-24-2014
  *
  * @package canonical
@@ -30,9 +30,13 @@ $snippets[1]->fromArray(array (
   'id' => 1,
   'property_preprocess' => false,
   'name' => 'Canonical',
-  'description' => 'Create a canonical tag for Symlinks for SEO',
-  'properties' => NULL,
+  'description' => 'Create a canonical tag to prevent SEO penalties for duplicate content. SEO experts recommend a canonical tag for all pages.',
 ), '', true, true);
 $snippets[1]->setContent(file_get_contents($sources['source_core'] . '/elements/snippets/canonical.snippet.php'));
+
+
+$properties = include $sources['data'].'properties/properties.canonical.snippet.php';
+$snippets[1]->setProperties($properties);
+unset($properties);
 
 return $snippets;
