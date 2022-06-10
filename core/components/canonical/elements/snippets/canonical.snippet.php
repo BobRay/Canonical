@@ -49,23 +49,29 @@ $canonicalId = false;
 
 if ($mergeFields) {
     /* Default settings (symlink_merge_fields is on);
-       $id may be Symlink ID or ID of regular page */
+       $id may be Symlink ID, or ID of regular page;
+       it will never be the ID of a target page
+     */
 
     /* See if we're a SymLink */
     $doc = $modx->getObject($prefix . 'modResource', $docId);
 
-    /* The first one will only work if class_key is removed from
-       forward_merge_excludes */
+    /* The "if" code will only execute if
+       request is for a SymLink */
     if ($doc->get('class_key') == $prefix . 'modSymLink') {
-        /* We're in a Symlink */
+        /* It's a SymLink */
         $canonicalId = (int)$doc->get('content');
-    } else { /* It's a regular page*/
+    } else {
+        /* It's a regular page; both SymLinks
+            and targets get a tag; this one doesn't
+            unless all pages do */
         $canonicalId = $canonicalAlways ? $docId : false;
     }
 
 } else {
-    /* Non-Default install settings; (symlink_merge_fields is on)
-       $docId is always the ID of the target page or current page */
+    /* Non-Default install settings; (symlink_merge_fields is off)
+       $docId is always the ID of a target page, or current page
+       if current page is not a Symlink */
     if ($canonicalAlways) {
         $canonicalId = $docId; // we're done
     } else {
@@ -75,12 +81,14 @@ if ($mergeFields) {
             'content' => $docId,
             'class_key' => $prefix . 'modSymlink',
         );
-        /* Yes. SymLink Page and target pages get a tag */
+
         if ($modx->getCount($prefix . 'modResource', $c)) {
+            /* Yes. SymLink Page and target pages get a tag */
             $canonicalId = $docId;
         }
     }
 }
+/* $canonicalId will be false if page doesn't get a tag */
 return ($canonicalId)
     ? '<link rel="canonical" href="' .
     $modx->makeUrl($canonicalId, "", "", 'full') .
