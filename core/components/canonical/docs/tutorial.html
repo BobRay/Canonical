@@ -1,9 +1,9 @@
 <p>The Canonical snippet places a proper canonical tag in the head section of pages.
-Version 3.0.0-pl has been updated for MODX 3 and adds an option to put a canonical tag on all pages.
+Version 3.0.0-pl has been updated for MODX 3 and adds an option to put a canonical tag on all pages. All the information below applies to both versions of MODX.
 </p>
 
 <div class="box">
-  <p>Important update note: As of version 3.0.0-pl, Canonical will put a canonical tag on all pages. On all but SymLink pages, it will point to the page itself.</p>
+  <p>Important update note: As of version 3.0.0-pl, Canonical will put a canonical tag on all pages. On all but SymLink pages, the tag will point to the page itself.</p>
 
   <p>If you don't want this, change the <code>canonical_always</code> snippet property, either in the snippets default properties (and redo this if the extra is updated), in a property set, or in the snippet tag (recommended). But see the info below before doing so.</p>
 </div>
@@ -11,9 +11,8 @@ Version 3.0.0-pl has been updated for MODX 3 and adds an option to put a canonic
 <h3>Installing Canonical</h3>
 
 <p>
-Go to System | Package Management on the main menu in the MODX Manager and click on the &quot;Download Extras&quot; button. That will take you to the
-Revolution Repository (AKA Web Transport Facility). Put Canonical in the search box and press Enter. Click on the &quot;Download&quot; button, and once the package is downloaded,  click on the &quot;Back to Package Manager&quot; button. That should bring you back to your Package Management grid. Click on the
-&quot;Install&quot; button next to Canonical in the grid. The Canonical package should now be installed.</p>
+Go to Extras | Installer on the main menu in the MODX Manager. That will take you to the Package Management panel. Click on the &quot;Download Extras&quot; button. That will take you to the MODX Extras Repository. Put Canonical in the search box and press Enter. Click on the &quot;Download&quot; button, and once the package is downloaded,  click on the &quot;Back to Package Manager&quot; button. That should bring you back to your Package Management grid. Click on the
+&quot;Install&quot; button next to Canonical in the grid and complete the steps. The Canonical package should now be installed.</p>
 
 <h3>Usage</h3>
 
@@ -31,17 +30,17 @@ Revolution Repository (AKA Web Transport Facility). Put Canonical in the search 
 
 <p>SEO experts have been recommending a canonical tag on all pages, and reportedly Google has confirmed that this is a best practice.</p>
 
-<p>With version 3.0.0-pl, this actually improves performance as well, since the snippet never has to consult the database to decide whether the page gets a canonical tag. When the snippet runs, there's no way to be sure whether a page should get a canonical tag or not without a DB query, since with the default configuration of MODX, the <code>class_key</code> of the document has been changed to <code>modDocument</code> by the time the snippet runs.</p>
+<p>With version 3.0.0-pl, this actually improves performance as well, since the snippet takes less time to decide whether the page gets a canonical tag. When the snippet runs, there's no way to be sure whether a page should get a canonical tag or not without a DB query, since with the default configuration of MODX, the <code>class_key</code> of the document has been changed to <code>modDocument</code> by the time the snippet runs.</p>
 
 <h3>The Good News</h3>
 
-<p>The good news is that if you want a canonical tag on every page, you just need to update the snippet, and it will do that by default.</p>
+<p>The good news is that if you want a canonical tag on every page, you just need to update the snippet, and it should do that by default.</p>
 
 <h3>The Bad News</h3>
 
-<p>SymLinks are still complicated. There are two System Settings that control how SymLinks are handled: <code>symlink_merge_fields</code> and <code>forward_merge_excludes</code>.</p>
+<p>SymLinks are still complicated. There are two System Settings that control how SymLinks are handled: <code>symlink_merge_fields</code> and <code>forward_merge_excludes</code>. Tip: You can see them both by going to System (gear icon) -> System Settings, and putting "merge" in the search box.</p>
 
-<p>In the following sections, the "target" resource is the resource the SymLink page points to. The canonical tag will hold the ID of the target resource (always). The SymLink resource itself holds that target resource's ID in its <code>content</code> field. (When creating or editing a SymLink page, the "content" field gets the label: "SymLink.")</p>
+<p>In the following sections, the "target" resource is the resource a SymLink page points to. The canonical tag will hold the URL of the target resource (always). The SymLink resource itself holds that target resource's ID in its <code>content</code> field. (When creating or editing a SymLink page, the "content" field gets the label: "SymLink.")</p>
 
 <p>The <code>symlink_merge_fields</code> System Setting tells MODX whether to merge the SymLinks fields over those of the target document. If it's set to <code>Yes</code>, MODX will replace the target page's fields with any non-empty fields (including TVs) in the SymLink resource (except the ones specified below). If <code>symlink_merge_fields</code> is set to yes, for example, the displayed page will use the <code>pagetitle</code>, <code>longtitle</code>, <code>template</code>, and other fields of the SymLink resource if they are not blank and not covered by the next section.</p>
 
@@ -51,9 +50,25 @@ Revolution Repository (AKA Web Transport Facility). Put Canonical in the search 
 
 <p>The default content of the <code>forward_merge_excludes</code> System Setting is <code>type,published,class_key</code>. With that setting, the value of those three fields will always come from the target resource.</p>
 
+<div class="box">
+  <p>Internally, MODX adds the following fields to the ones listed above (in the <code>forward_merge_excludes</code> setting) when it processes SymLinks. The fields listed below will always come from the target resource.</p>
+
+  <ul>
+    <li>'content'</li>
+    <li>'pub_date'</li>
+    <li>'unpub_date'</li>
+    <li>'richtext'</li>
+    <li>'_content'</li>
+    <li>'_processed'</li>
+  </ul>
+
+
+</div>
+
 <h3>Behavior of the Canonical Snippet</h3>
 
 <p>The information above affects how the Canonical snippet behaves. The actions below are not my choices for the snippet, they are unavoidable effects of how MODX handles SymLinks. This is how it works:</p>
+
 <ul>
   <li><code>canonical_always</code> snippet property set to "Yes"</li>
     <ul>
@@ -63,12 +78,11 @@ Revolution Repository (AKA Web Transport Facility). Put Canonical in the search 
      <ul>
        <li><code>symlink_merge_fields</code> set to "Yes"</li>
           <ul>
-            <li>SymLinks and target pages always get a canonical tag if <code>class_key</code> is in the <code>forward_merge_excludes</code> setting .</li>
-            <li>If <code>class_key</code> is removed from the <code>forward_merge_excludes</code> setting, only SymLinks get a canonical tag.</li>
+            <li>SymLinks get a canonical tag. Other pages do not.</li>
           </ul>
        <li><code>symlink_merge_fields</code> set to "No"</li>
         <ul>
-            <li>SymLinks and target pages always get a canonical tag. Other pages do not.</li>
+            <li>SymLinks and target pages both get a canonical tag. Other pages do not.</li>
         </ul>
      </ul>
 </ul>
@@ -79,9 +93,15 @@ Revolution Repository (AKA Web Transport Facility). Put Canonical in the search 
 
 <p>If you don't want canonical tags on every page, use the list of actions above to see what works best for your use case.</p>
 
-<p>Note that if you want canonical tags only on SymLink pages, the only way to do it is to turn the <code>symlink_merge</code> System Setting on and remove the <code>class_key</code> from the <code>forward_merge_excludes</code> System Setting.</p>
+<p>Note that if you want canonical tags <i>only</i>> on SymLink pages, the only way to do it is to turn the <code>symlink_merge_fields</code> System Setting to "Yes." (This is the default setting in new MODX installs.)</p>
 
-<p>This means that the SymLink resource's non-empty fields and TV values will overwrite the target resource's fields, unless you add them to the <code>forward_merge_excludes</code> System Setting, or make sure they're blank in the SymLink resource. It also means that the <code>class_key</code> of the resulting page will be <code>modSymLink</code>. I don't think that will cause any trouble, but I could be wrong.</p>
+<p>This means that the SymLink resource's non-empty fields and TV values will overwrite the target resource's fields, unless you add them to the <code>forward_merge_excludes</code> System Setting, or make sure they're blank in the SymLink resource.</p>
+
+<p>When putting canonical tags on every page, it will be fastest if the <code>symlink_merge_fields</code> System Setting is off. In that case, no queries to the DB will be necessary. No matter what the settings or properties are, though, there will never be more than one call to the DB, so the speed advantage here is very small, but if you don't need to use any fields of the SymLink resource in the final page, turn off the <code>symlink_merge_fields</code> setting to get faster page loads.</p>
+
+<p>When putting canonical tags only on SymLink-related pages, having the <code>symlink_merge_fields</code> System Setting off is also faster since it can use <code>getCount()</code> rather than retrieving an object, but the difference is probably negligible, since the <code>getCount()</code> call has criteria.</p>
+
+<p>Note that using a different template for SymLink pages and putting the Canonical snippet tag only on that template doesn't work. If you do that, SymLink pages will never get a canonical tag.</p>
 
 <p></p>
 
