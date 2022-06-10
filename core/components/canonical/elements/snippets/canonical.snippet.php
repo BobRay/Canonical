@@ -88,7 +88,7 @@ if ($mergeFields) {
         }
     }
 }
-/* $canonicalId will be false if page doesn't get a tag */
+/* $canonicalId will be false if page isn't getting a tag */
 return ($canonicalId)
     ? '<link rel="canonical" href="' .
     $modx->makeUrl($canonicalId, "", "", 'full') .
