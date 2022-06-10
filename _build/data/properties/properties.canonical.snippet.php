@@ -2,7 +2,7 @@
 /**
  * Properties file for Canonical snippet
  *
- * Copyright 2010-2014 Bob Ray <https://bobsguides.com>
+ * Copyright 2010-2022 Bob Ray <https://bobsguides.com>
  * Created on 06-08-2022
  *
  * @package canonical
