@@ -5,7 +5,7 @@ Version 3.0.0-pl has been updated for MODX 3 and adds an option to put a canonic
 <div class="box">
   <p>Important update note: As of version 3.0.0-pl, Canonical will put a canonical tag on all pages. On all but SymLink pages, the tag will point to the page itself.</p>
 
-  <p>If you don't want this, change the <code>canonical_always</code> snippet property, either in the snippets default properties (and redo this if the extra is updated), in a property set, or in the snippet tag (recommended). But see the info below before doing so.</p>
+  <p>If you don't want this, change the <code>canonical_always</code> System Setting,  but see the info below before doing so.</p>
 </div>
 
 <h3>Installing Canonical</h3>
@@ -30,23 +30,29 @@ Go to Extras | Installer on the main menu in the MODX Manager. That will take yo
 
 <p>SEO experts have been recommending a canonical tag on all pages, and reportedly Google has confirmed that this is a best practice.</p>
 
-<p>With version 3.0.0-pl, this actually improves performance as well, since the snippet takes less time to decide whether the page gets a canonical tag. When the snippet runs, there's no way to be sure whether a page should get a canonical tag or not without a DB query, since with the default configuration of MODX, the <code>class_key</code> of the document has been changed to <code>modDocument</code> by the time the snippet runs.</p>
+<p>With version 3.0.0-pl, this actually improves performance as well, since the snippet takes less time to decide whether the page gets a canonical tag. When the snippet is set to put tags on only some pages, there's no way to be sure whether a page should get a canonical tag or not without a DB query, since with the default configuration of MODX, the <code>class_key</code> of the document has been changed to <code>modDocument</code> by the time the snippet runs.</p>
 
 <h3>The Good News</h3>
 
-<p>The good news is that if you want a canonical tag on every page, you just need to update the snippet, and it should do that by default.</p>
+<p>The good news is that if you want a canonical tag on every page, you just need to update the snippet, and it should do that by default, since the extra's new  <code>canonical_always</code> System Setting is set to <code>Yes</code> by default.</p>
 
 <h3>The Bad News</h3>
 
-<p>SymLinks are still complicated. There are two System Settings that control how SymLinks are handled: <code>symlink_merge_fields</code> and <code>forward_merge_excludes</code>. Tip: You can see them both by going to System (gear icon) -> System Settings, and putting "merge" in the search box.</p>
+<p>SymLinks are still complicated. There are three System Settings that control how SymLinks are handled in the Canonical snippet, and by MODX: <code>canonical_always</code>, <code>symlink_merge_fields</code> and <code>forward_merge_excludes</code>. The first one is created by Canonical, the other two are MODX core settings.</p>
 
-<p>In the following sections, the "target" resource is the resource a SymLink page points to. The canonical tag will hold the URL of the target resource (always). The SymLink resource itself holds that target resource's ID in its <code>content</code> field. (When creating or editing a SymLink page, the "content" field gets the label: "SymLink.")</p>
+<p><b>Tip</b>: You can see all three settings by going to System (gear icon) -> System Settings, and putting &quot;merge&quot; in the search box. I added &quot;merge&quot; in parentheses after the <code>canonical_always</code> setting name, just so you could do that.</p>
 
-<p>The <code>symlink_merge_fields</code> System Setting tells MODX whether to merge the SymLinks fields over those of the target document. If it's set to <code>Yes</code>, MODX will replace the target page's fields with any non-empty fields (including TVs) in the SymLink resource (except the ones specified below). If <code>symlink_merge_fields</code> is set to yes, for example, the displayed page will use the <code>pagetitle</code>, <code>longtitle</code>, <code>template</code>, and other fields of the SymLink resource if they are not blank and not covered by the next section.</p>
+<h3>How Canonical Works</h3>
+
+<p>In the following sections, the &quot;target&quot; resource is the resource a SymLink page points to. The canonical tag should hold the URL of the target resource (always). The SymLink resource itself holds that target resource's ID in its <code>content</code> field. (When creating or editing a SymLink page, the <code>content</code> field of the resource gets the label: &quot;SymLink.&quot;)</p>
+
+<p>When the <code>canonical_always</code> setting is set to <code>Yes</code>, Canonical  puts a canonical tag on every page that has the Canonical snippet tag in its template, regardless of the other two settings.  </p>
+
+<p>The <code>symlink_merge_fields</code> System Setting tells MODX whether to merge the SymLinks fields over those of the target document. If it's set to <code>Yes</code>, MODX will replace the target page's fields with any non-empty fields (including TVs) in the SymLink resource (except the ones specified below). If <code>symlink_merge_fields</code> is set to <code>Yes</code>, for example, the displayed page will use the <code>pagetitle</code>, <code>longtitle</code>, <code>template</code>, and other fields of the SymLink resource if they are not blank and not covered by the next section.</p>
 
 <p>If the <code>symlink_merge_fields</code> System Setting is set to <code>No</code>, all the target resource's fields are used as is, and all fields of the SymLink resource are ignored, except the ID in the <code>content</code> field that points to the target resource.</p>
 
-<p>The <code>forward_merge_excludes</code> System Setting contains a list of fields that should not be overwritten in the target resource when it's accessed through a SymLink. If <code>symlink_merge_fields</code> is set to <code>No</code>, these are ignored. If it's set to yes, those fields are not overwritten by the SymLink's fields. </p>
+<p>The <code>forward_merge_excludes</code> System Setting contains a list of fields that should not be overwritten in the target resource when it's accessed through a SymLink. If <code>symlink_merge_fields</code> is set to <code>No</code>, these are ignored. If it's set to <code>Yes</code>, those fields are not overwritten by the SymLink's fields. </p>
 
 <p>The default content of the <code>forward_merge_excludes</code> System Setting is <code>type,published,class_key</code>. With that setting, the value of those three fields will always come from the target resource.</p>
 
@@ -70,17 +76,17 @@ Go to Extras | Installer on the main menu in the MODX Manager. That will take yo
 <p>The information above affects how the Canonical snippet behaves. The actions below are not my choices for the snippet, they are unavoidable effects of how MODX handles SymLinks. This is how it works:</p>
 
 <ul>
-  <li><code>canonical_always</code> snippet property set to "Yes"</li>
+  <li><code>canonical_always</code> set to <code>Yes</code></li>
     <ul>
-      <li>All pages get a canonical tag regardless of the System Settings. For SymLink resources, it contains the target resource's URL, for all other pages, it contains the URL of the page itself.
+      <li>All pages get a canonical tag regardless of the other System Settings. For SymLink resources, it contains the target resource's URL, for all other pages, it contains the URL of the page itself.
     </ul>
-  <li><code>canonical_always snippet property set to "No"</code></li>
+  <li><code>canonical_always</code> set to <code>No</code></li>
      <ul>
-       <li><code>symlink_merge_fields</code> set to "Yes"</li>
+       <li><code>symlink_merge_fields</code> set to <code>Yes</code></li>
           <ul>
             <li>SymLinks get a canonical tag. Other pages do not.</li>
           </ul>
-       <li><code>symlink_merge_fields</code> set to "No"</li>
+       <li><code>symlink_merge_fields</code> set to <code>No</code></li>
         <ul>
             <li>SymLinks and target pages both get a canonical tag. Other pages do not.</li>
         </ul>
@@ -93,7 +99,7 @@ Go to Extras | Installer on the main menu in the MODX Manager. That will take yo
 
 <p>If you don't want canonical tags on every page, use the list of actions above to see what works best for your use case.</p>
 
-<p>Note that if you want canonical tags <i>only</i>> on SymLink pages, the only way to do it is to turn the <code>symlink_merge_fields</code> System Setting to "Yes." (This is the default setting in new MODX installs.)</p>
+<p>Note that if you want canonical tags <i>only</i>> on SymLink pages, the only way to do it is to set the <code>symlink_merge_fields</code> System Setting to <code>Yes</code>. (This is the default setting in new MODX installs.)</p>
 
 <p>This means that the SymLink resource's non-empty fields and TV values will overwrite the target resource's fields, unless you add them to the <code>forward_merge_excludes</code> System Setting, or make sure they're blank in the SymLink resource.</p>
 
@@ -102,6 +108,14 @@ Go to Extras | Installer on the main menu in the MODX Manager. That will take yo
 <p>When putting canonical tags only on SymLink-related pages, having the <code>symlink_merge_fields</code> System Setting off is also faster since it can use <code>getCount()</code> rather than retrieving an object, but the difference is probably negligible, since the <code>getCount()</code> call has criteria.</p>
 
 <p>Note that using a different template for SymLink pages and putting the Canonical snippet tag only on that template doesn't work. If you do that, SymLink pages will never get a canonical tag.</p>
+
+<h3>What about WebLinks?</h3>
+
+<p>WebLinks actually forward the user to the target page, potentially with a 301 (permanently moved) response code, so you won't be penalized for duplicate content. </p>
+
+<p>WebLinks might seem like a simpler alternative to Symlinks, but there are two drawbacks with WebLinks. First, you won't get to use any fields of the WebLink on the target page like you can with SymLinks.</p>
+
+<p>Second, a SymLink pulls in the content of the target page and displays it, all in the same request cycle. A WebLink, on the other hand, instantiates MODX, initializes MODX, finds the page to display, then forwards the user to the target page, which begins another request, so MODX is instantiated and initialized all over again, slowing down your page loads.</p>
 
 <p></p>
 
