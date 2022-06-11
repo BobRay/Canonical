@@ -54,13 +54,21 @@ if ($mergeFields) {
      */
 
     /* See if we're a SymLink */
-    $doc = $modx->getObject($prefix . 'modResource', $docId);
+    $q = 'SELECT id,content,class_key FROM ' . $modx->getTableName($prefix . 'modResource') . ' WHERE id = ' . $docId;
+
+    $stmt = $modx->prepare($q);
+    if ($stmt->execute()) {
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
+//    $doc = $modx->getObject($prefix . 'modResource', $docId);
 
     /* The "if" code will only execute if
        request is for a SymLink */
-    if ($doc->get('class_key') == $prefix . 'modSymLink') {
+    if ($result[0]['class_key'] == $prefix . 'modSymLink') {
         /* It's a SymLink */
-        $canonicalId = (int)$doc->get('content');
+        $canonicalId = (int)$result[0]['content'];
     } else {
         /* It's a regular page; both SymLinks
             and targets get a tag; this one doesn't
@@ -77,12 +85,17 @@ if ($mergeFields) {
     } else {
 
         /* See if there's a related Symlink */
-        $c = array(
-            'content' => $docId,
-            'class_key' => $prefix . 'modSymlink',
-        );
+        $q = 'SELECT COUNT(*) as total FROM ' . $modx->getTableName($prefix . 'modResource') . ' WHERE content = ' . $docId . ' AND class_key = "modSymLink"';
 
-        if ($modx->getCount($prefix . 'modResource', $c)) {
+        $stmt = $modx->prepare($q);
+        if ($stmt->execute()) {
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        $count = $result[0]['total'];
+
+        if ($count > 0) {
+            // if ($modx->getCount($prefix . 'modResource', $c)) {
             /* Yes. SymLink Page and target pages get a tag */
             $canonicalId = $docId;
         }
