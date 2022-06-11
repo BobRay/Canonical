@@ -23,7 +23,7 @@ $components = array(
     'authorUrl' => 'https://bobsguides.com',
     'authorSiteName' => "Bob's Guides",
     'packageDocumentationUrl' => 'https://bobsguides.com/canonical-tutorial.html',
-    'copyright' => '2010-2022 Bob Ray',
+    'copyright' => '2010-2014',
 
     /* no need to edit this except to change format */
     'createdon' => strftime('%m-%d-%Y'),
@@ -54,6 +54,17 @@ $components = array(
      * You can also create or edit them in the Manager (System -> System Settings),
      * and export them with exportObjects. If you do that, be sure to set
      * their namespace to the lowercase package name of your extra */
+
+    'newSystemSettings' => array (
+        'canonical_always' => array( // key
+            'key' => 'canonical_always',
+            'name' => 'Canonical Always',
+            'description' => 'Add a canonical tag to each page, with or without merge fields',
+            'namespace' => 'canonical',
+            'xtype' => 'combo-boolean',
+            'value' => true,
+         ),
+    ),
 
 
     /* ************************ NAMESPACE(S) ************************* */

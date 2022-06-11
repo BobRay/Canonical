@@ -43,8 +43,8 @@ $isMODX3 = empty($prefix) ? false : true;
 
 /** @var array $scriptProperties */
 $docId = (int)$modx->resource->get('id');
-$mergeFields = (bool)$modx->getOption('symlink_merge_fields', null);
-$canonicalAlways = (bool)$modx->getOption('canonical_always', $scriptProperties, true);
+$mergeFields = (bool) $modx->config['symlink_merge_fields'];
+$canonicalAlways = (bool) $modx->config['canonical_always'];
 $canonicalId = false;
 
 if ($mergeFields) {
@@ -68,7 +68,7 @@ if ($mergeFields) {
        request is for a SymLink */
     if ($result[0]['class_key'] == $prefix . 'modSymLink') {
         /* It's a SymLink */
-        $canonicalId = (int)$result[0]['content'];
+        $canonicalId = (int) $result[0]['content'];
     } else {
         /* It's a regular page; both SymLinks
             and targets get a tag; this one doesn't
