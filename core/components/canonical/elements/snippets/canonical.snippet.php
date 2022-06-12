@@ -85,7 +85,11 @@ if ($mergeFields) {
     } else {
 
         /* See if there's a related Symlink */
-        $q = 'SELECT COUNT(*) as total FROM ' . $modx->getTableName($prefix . 'modResource') . ' WHERE content = ' . $docId . ' AND class_key = "modSymLink"';
+        $q = 'SELECT COUNT(*) as total FROM ' . $modx->getTableName($prefix . 'modResource') . ' WHERE content = ' . $docId . ' AND class_key = "' . $prefix . 'modSymLink"';
+
+        if ($isMODX3) {
+            $q = str_replace('\\', '\\\\', $q);
+        }
 
         $stmt = $modx->prepare($q);
         if ($stmt->execute()) {
