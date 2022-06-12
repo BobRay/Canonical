@@ -28,8 +28,8 @@ $systemSettings = array();
 $systemSettings[1] = $modx->newObject('modSystemSetting');
 $systemSettings[1]->fromArray(array (
   'key' => 'canonical_always',
-  'name' => 'setting_canonical_always',
-  'description' => 'settingcanonical_always_desc',
+  'name' => 'Canonical always (merge)',
+  'description' => 'setting_canonical_always_desc',
   'namespace' => 'canonical',
   'xtype' => 'combo-boolean',
   'value' => true,
