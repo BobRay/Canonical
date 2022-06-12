@@ -1,6 +1,6 @@
 Changelog for Canonical
 
-Canonical 2.0.0-pl
+Canonical 3.0.0-pl
 ---------------------------------
  - Updates for MODX 3
  - Option to put canonical tag on all pages
