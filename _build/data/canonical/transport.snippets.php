@@ -2,7 +2,7 @@
 /**
  * snippets transport file for Canonical extra
  *
- * Copyright 2010-2014 Bob Ray <https://bobsguides.com>
+ * Copyright 2010-2022 Bob Ray <https://bobsguides.com>
  * Created on 08-24-2014
  *
  * @package canonical
