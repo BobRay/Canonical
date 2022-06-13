@@ -103,7 +103,7 @@ Go to Extras | Installer on the main menu in the MODX Manager. That will take yo
 
 <p>This means that the SymLink resource's non-empty fields and TV values will overwrite the target resource's fields, unless you add them to the <code>forward_merge_excludes</code> System Setting, or make sure they're blank in the SymLink resource.</p>
 
-<p>When putting canonical tags on every page, it will be fastest if the <code>symlink_merge_fields</code> System Setting is off. In that case, no queries to the DB will be necessary. No matter what the settings or properties are, though, there will never be more than one call to the DB, so the speed advantage here is very small, but if you don't need to use any fields of the SymLink resource in the final page, turn off the <code>symlink_merge_fields</code> setting to get faster page loads.</p>
+<p>When putting canonical tags on every page, it will be fastest if the <code>symlink_merge_fields</code> System Setting is off. In that case, no queries to the DB will be necessary. No matter what the settings or properties are, though, there will never be more than one call to the DB, so the speed advantage here is very small. If you don't need to use any fields of the SymLink resource in the final page, turn off the <code>symlink_merge_fields</code> setting to get faster page loads.</p>
 
 <p>When putting canonical tags only on SymLink-related pages, having the <code>symlink_merge_fields</code> System Setting off is also faster since it can use <code>getCount()</code> rather than retrieving an object, but the difference is probably negligible, since the <code>getCount()</code> call has criteria.</p>
 
