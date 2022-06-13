@@ -7,10 +7,14 @@ Canonical Extra for MODX Revolution
 
 **Bugs and requests:** [Canonical Issues](https://github.com/BobRay/Canonical/issues)
 
-**Questions about using Canonical** [MODX Forums](https://forums.modx.com)
+**Questions about using Canonical** [MODX Forums](https://community.modx.com)
+
+As of Version 3.0.0-pl, Canonical puts a canonical tag on every page by default.
 
 Canonical creates an automatic canonical tag for Symlinks in MODX Revolution, to prevent search engine penalties for duplicate content.
 
 Install with Package Manager and place this tag in the `<head>` section of all templates:
 
     [[!Canonical]]
+
+If you don't want a tag on every page, change the `canonical_always` System Setting value to `No`.
